@@ -36,7 +36,7 @@
 
         <section data-background-transition="slide">
             <div style="float: left;">
-                <img src="img/angular.png" style="border: none; box-shadow: none;"/>
+                <img src="img/angular.png"/>
             </div>
             <div style="float: right;">
                 <h2>AngularJS</h2>
@@ -51,11 +51,118 @@
         </section>
 
         <section>
-            <h2>Stuff</h2>
-            <p>
-                <br><br><br>
-                <small>Stuff<br></small>
-            </p>
+            <h2>Exploding Popularity</h2>
+            <img src="img/graph.png"/><br/>
+            <small>* Google Trends</small>
+        </section>
+
+        <section>
+            <h2>Exploding Popularity</h2>
+            <img src="img/jobgraph.png" style="width: 200%; height: 200%;"/><br/>
+        </section>
+
+        <section>
+            <img src="img/Lifetouch_Logo_2013.png" style="width: 200px; height: 125px;"/>
+            <br/>
+            Started using Angular a year ago
+            <br/>
+            <br/>
+            <ul>
+                <li>Image Editor</li>
+                <li>Ad Builder</li>
+                <li>Mobile e-commerce site</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>The 5 Minute Overview</h2>
+        </section>
+
+        <section>
+            <img src="img/angular_diagram.png" style="width: 60%; height: 60%;"/>
+            <br/>
+            <small>Courtesy&nbsp;<a href="https://mscblogs.blob.core.windows.net/media/dwahlin/Media/image_thumb_3DE5D87B.png">Dan Wahlin</a></small>
+        </section>
+
+        <section>
+            <h2>Angular Tutorial</h2>
+            <pre><code class="javascript">var app = angular.module('phonecatApp', []);
+app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [{
+    'name': 'Nexus S',
+    'snippet': 'Fast just got faster with Nexus S.'
+  },{
+    'name': 'Motorola XOOM™ with Wi-Fi',
+    'snippet': 'The Next, Next Generation tablet.'
+  },{
+    'name': 'MOTOROLA XOOM™',
+    'snippet': 'The Next, Next Generation tablet.'
+  }];
+});</code></pre>
+            <small><a href="https://docs.angularjs.org/tutorial/step_02">*https://docs.angularjs.org/tutorial/step_02</a></small>
+        </section>
+
+        <section>
+            <h2>Angular Tutorial</h2>
+            <pre><code class="html">&lt;html ng-app="phonecatApp">
+  &lt;head>
+    <script src="js/angular.js"></script>
+    <script src="js/controllers.js"></script>
+  &lt;/head>
+  &lt;body ng-controller="PhoneListCtrl">
+    <ul>
+      <li ng-repeat="phone in phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+      </li>
+    </ul>
+  &lt;/body>
+&lt;/html></code></pre>
+            <small><a href="https://docs.angularjs.org/tutorial/step_02">*https://docs.angularjs.org/tutorial/step_02</a></small>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+        </section>
+
+        <section>
+            Code Organization
+        </section>
+
+        <section>
+            Source Files
+        </section>
+
+        <section>
+            Modules
+        </section>
+
+        <section>
+            Dependency Injection
+        </section>
+
+        <section>
+            Templates
+        </section>
+
+        <section>
+            Controllers
+        </section>
+
+        <section>
+            Directives
+        </section>
+
+        <section>
+            Filters
+        </section>
+
+        <section>
+            Events & Misc
+        </section>
+
+        <section>
+            Testing
         </section>
 
         <section>
