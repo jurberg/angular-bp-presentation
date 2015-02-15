@@ -44,7 +44,7 @@
                 <p>
                     <br/><br/>
                     <small>Created by John Urberg</small><br>
-                    <small>Lead Applications Architect @Lifetouch</small><br>
+                    <small>Application Architect @Lifetouch</small><br>
                     <small>@jurberg / jurberg.github.io</small>
                 </p>
             </div>
@@ -64,13 +64,14 @@
         <section>
             <img src="img/Lifetouch_Logo_2013.png" style="width: 200px; height: 125px;"/>
             <br/>
-            Started using Angular a year ago
+            Example projects:
             <br/>
             <br/>
             <ul>
                 <li>Image Editor</li>
                 <li>Ad Builder</li>
-                <li>Mobile e-commerce site</li>
+                <li>Mobile eCommerce Site</li>
+                <li>Template Designer</li>
             </ul>
         </section>
 
@@ -87,6 +88,7 @@
         <section>
             <h2>Angular Tutorial</h2>
             <pre><code class="javascript">var app = angular.module('phonecatApp', []);
+
 app.controller('PhoneListCtrl', function($scope) {
   $scope.phones = [{
     'name': 'Nexus S',
@@ -122,15 +124,188 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
+            <img src="img/tutorial_02.png" style="width: 160%; height: 160%;"/>
+            <small><a href="https://docs.angularjs.org/tutorial/step_02">*https://docs.angularjs.org/tutorial/step_02</a></small>
+        </section>
+
+        <section>
+            <p data-height="350" data-theme-id="0" data-slug-hash="pvaOpW" data-default-tab="result"
+               data-user="jurberg" class='codepen'>See the Pen
+                <a href='http://codepen.io/jurberg/pen/pvaOpW/'>Standard AngularJS Tutorial</a> by John Urberg (<a href='http://codepen.io/jurberg'>@jurberg</a>) on <a href='http://codepen.io'>CodePen</a>.
+            </p>
+        </section>
+
+        <section>
             <h2>Best Practices</h2>
         </section>
 
         <section>
-            Code Organization
+            <h2>Code Organization</h2>
         </section>
 
         <section>
-            Source Files
+            <h2 style="text-decoration: line-through;">File Per Type</h2>
+            <pre><code class="javascript">js/
+  controllers.js
+  services.js
+  directives.js
+  filters.js
+  modules.js</code></pre>
+        </section>
+
+        <section>
+            <h2>Directory Per Type</h2>
+            <pre><code class="javascript">app/
+  controllers/
+    mainController.js
+    otherController.js
+  directives/
+    mainDirective.js
+    otherDirective.js
+  services/
+    userService.js
+    itemService.js
+  lib/
+    jquery.js
+    bootstrap.js
+  app.js</code></pre>
+        </section>
+
+        <section>
+            <h2>Directory Per Module</h2>
+            <pre><code class="javascript">app/
+  patients/
+    patient-controller.js
+    patient-module.js
+    patient-service.js
+  accounts/
+    account-list-controller.js
+    account-module.js
+    account-service.js
+    account-directive.js</code></pre>
+        </section>
+
+        <section>
+            <h2>Combo Platter</h2>
+            <pre><code class="javascript">app/
+  patients/
+    controllers/
+      patient-controller.js
+    services/
+      patient-service.js
+    patient-module.js
+  accounts/
+    controllers/
+      account-list-controller.js
+    services/
+      account-service.js
+    directives/
+      account-directive.js
+    account-module.js</code></pre>
+        </section>
+
+        <section>
+            <h2>Source Files</h2>
+        </section>
+
+        <section>
+            <h3>Define 1 Component Per File</h3>
+        </section>
+
+        <section>
+            app.js
+            <pre><code class="javascript">var app = angular.module('phonecatApp', []);</code></pre>
+            phoneListCtrl.js
+            <pre><code class="javascript">
+app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [];
+  $scope.addPhone = function(phone) {
+    $scope.phones.push(phone);
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h3>Use An IFFE</h3>
+            <p>(Immediately-Invoked Function Expression)</p>
+        </section>
+
+        <section>
+            app.js
+            <pre><code class="javascript">(function(global, angular) {
+  "use strict";
+  global.app = angular.module('phonecatApp', []);
+}(this, angular));</code></pre>
+            phoneListCtrl.js
+            <pre><code class="javascript">(function(app) {
+  "use strict";
+  app.controller('PhoneListCtrl', function($scope) {
+    $scope.phones = [];
+    $scope.addPhone = function(phone) {
+    $scope.phones.push(phone);
+  };
+}(app));</code></pre>
+        </section>
+
+        <section>
+            <h3>Use A Module Library</h3>
+            <br/>
+            <ul>
+                <li>AMD (Asynchronous Module Definition)</li>
+                <li>CommonJS</li>
+                <li>ES6</li>
+            </ul>
+        </section>
+
+        <section>
+            app.js
+            <pre><code class="javascript">define(["angular"], function(angular) {
+  "use strict";
+  return angular.module('phonecatApp', []);
+});</code></pre>
+            phoneListCtrl.js
+            <pre><code class="javascript">define(["app"], function(app) {
+  "use strict";
+  app.controller('PhoneListCtrl', function($scope) {
+    $scope.phones = [];
+    $scope.addPhone = function(phone) {
+      $scope.phones.push(phone);
+    };
+});</code></pre>
+        </section>
+
+        <section>
+            app.js
+            <pre><code class="javascript">const app = angular.module('phonecatApp', []);
+export default {app};</code></pre>
+            phoneListCtrl.js
+            <pre><code class="javascript">import {app as App} from '/app/app';
+app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [];
+  $scope.addPhone = function(phone) {
+    $scope.phones.push(phone);
+  };
+};</code></pre>
+        </section>
+
+        <section>
+            <h3>Use Named Functions</h3>
+        </section>
+
+        <section>
+        <pre><code class="javascript">(function(app) {
+  "use strict";
+
+  function PhoneListCtrl($scope) {
+    $scope.phones = [];
+    $scope.addPhone = function(phone) {
+      $scope.phones.push(phone);
+    };
+  }
+
+  app.controller('PhoneListCtrl', PhoneListCtrl);
+
+}(app));</code></pre>
         </section>
 
         <section>
@@ -188,6 +363,7 @@ app.controller('PhoneListCtrl', function($scope) {
     </div>
 </div>
 
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 <script src="js/head.min.js"></script>
 <script src="js/reveal.js"></script>
 <script src="js/jquery.js"></script>
