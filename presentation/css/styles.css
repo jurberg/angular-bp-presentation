@@ -19,3 +19,11 @@
     border: none;
     box-shadow: none;
 }
+
+.bp:before {
+    content: url('../img/thumbs-up.png');
+}
+
+.bad:before {
+    content: url('../img/thumbs-down.png');
+}

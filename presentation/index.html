@@ -144,7 +144,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2 style="text-decoration: line-through;">File Per Type</h2>
+            <h2 class="bad">File Per Type</h2>
             <pre><code class="javascript">js/
   controllers.js
   services.js
@@ -154,7 +154,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2>Directory Per Type</h2>
+            <h2 class="bp">Directory Per Type</h2>
             <pre><code class="javascript">app/
   controllers/
     mainController.js
@@ -172,7 +172,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2>Directory Per Module</h2>
+            <h2 class="bp">Directory Per Module</h2>
             <pre><code class="javascript">app/
   patients/
     patient-controller.js
@@ -186,7 +186,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2>Combo Platter</h2>
+            <h2 class="bp">Combo Platter</h2>
             <pre><code class="javascript">app/
   patients/
     controllers/
@@ -209,7 +209,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h3>Define 1 Component Per File</h3>
+            <h3 class="bp">Define 1 Component Per File</h3>
         </section>
 
         <section>
@@ -226,7 +226,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h3>Use An IFFE</h3>
+            <h3 class="bp">Use An IFFE</h3>
             <p>(Immediately-Invoked Function Expression)</p>
         </section>
 
@@ -248,7 +248,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h3>Use A Module Library</h3>
+            <h3 class="bp">Use A Module Library</h3>
             <br/>
             <ul>
                 <li>AMD (Asynchronous Module Definition)</li>
@@ -289,7 +289,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h3>Use Named Functions</h3>
+            <h3 class="bp">Use Named Functions</h3>
         </section>
 
         <section>
@@ -309,11 +309,60 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            Modules
+            <h2>Modules</h2>
+            <br/>
+            <p>A container for the different parts of your app</p>
         </section>
 
         <section>
-            Dependency Injection
+            <h3 class="bp">Google Recommendations</h3>
+            <br/>
+            <ul>
+                <li>A module for each feature (future: incremental loading)</li>
+                <li>A module for each reusable component (library)</li>
+                <li>An application level module which depends on the above modules and contains any initialization code</li>
+            </ul>
+            <small><a href="https://docs.angularjs.org/guide/module">*https://docs.angularjs.org/guide/module</a></small>
+        </section>
+
+        <section>
+            <h3 class="bad">Don't create a module for each type!</h3>
+        </section>
+
+        <section>
+            <pre><code class="javascript">var phonecatControllers = angular.module(
+  'phonecatControllers', []);
+
+phonecatControllers.controller('PhoneListCtrl',
+  function ($scope, $http) {
+    $http.get('phones/phones.json').success(function(data) {
+      $scope.phones = data;
+    });
+
+    $scope.orderProp = 'age';
+});
+
+phonecatControllers.controller('PhoneDetailCtrl',
+  function($scope, $routeParams) {
+    $scope.phoneId = $routeParams.phoneId;
+});</code></pre>
+            <small><a href="https://docs.angularjs.org/tutorial/step_07">*https://docs.angularjs.org/tutorial/step_07</a></small>
+        </section>
+
+        <section>
+            <h2>Dependency Injection</h2>
+            <br/>
+            <p>The Angular injector subsystem is in charge of creating components, resolving their dependencies, and providing them to other components as requested</p>
+            <small><a href="https://docs.angularjs.org/guide/di">*https://docs.angularjs.org/guide/di</a></small>
+        </section>
+
+        <section>
+            <h3 class="bp">Wrap Global Libraries</h3>
+            <br/>
+            <pre><code class="javascript">var underscore = angular.module('underscore', []);
+underscore.factory('_', function($window) {
+  return $window._; //Underscore must already be loaded on the page
+});</code></pre>
         </section>
 
         <section>
