@@ -136,7 +136,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2>Best Practices</h2>
+            <h1>Best Practices</h1>
         </section>
 
         <section>
@@ -309,17 +309,38 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2>Modules</h2>
+            <h2>Angular Modules</h2>
             <br/>
             <p>A container for the different parts of your app</p>
         </section>
 
         <section>
+            <pre><code class="javascript">var app = angular.module('phonecatApp', []);
+
+app.controller('PhoneListCtrl', function($scope) {});
+
+app.service('PhoneService', function() {});</code></pre>
+        </section>
+
+        <section>
+            <p>Your application module has a global namespace!</p>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Module Getter</h3>
+        </section>
+
+        <section>
+            <pre><code class="javascript">angular.module('phonecatApp')
+  .controller('PhoneListCtrl', function($scope) {});</code></pre>
+      </section>
+
+        <section>
             <h3 class="bp">Google Recommendations</h3>
             <br/>
             <ul>
-                <li>A module for each feature (future: incremental loading)</li>
-                <li>A module for each reusable component (library)</li>
+                <li>A module for each feature</li>
+                <li>A module for each reusable component</li>
                 <li>An application level module which depends on the above modules and contains any initialization code</li>
             </ul>
             <small><a href="https://docs.angularjs.org/guide/module">*https://docs.angularjs.org/guide/module</a></small>
@@ -359,14 +380,86 @@ phonecatControllers.controller('PhoneDetailCtrl',
         <section>
             <h3 class="bp">Wrap Global Libraries</h3>
             <br/>
-            <pre><code class="javascript">var underscore = angular.module('underscore', []);
-underscore.factory('_', function($window) {
-  return $window._; //Underscore must already be loaded on the page
-});</code></pre>
+            <pre><code class="javascript">angular.module('underscore', [])
+  .factory('_', function($window) {
+    return $window._;
+  });</code></pre>
         </section>
 
         <section>
-            Templates
+            <h2>Templates</h2>
+            <br/>
+            <p>HTML that contains Angular specific elements and attributes</p>
+        </section>
+
+        <section>
+            <pre><code class="html">&lt;html ng-app="phonecatApp">
+  &lt;head>
+    <script src="js/angular.js"></script>
+    <script src="js/controllers.js"></script>
+  &lt;/head>
+  &lt;body ng-controller="PhoneListCtrl">
+    <ul>
+        <li ng-repeat="phone in phones">
+            <span>{{phone.name}}</span>
+            <p>{{phone.snippet}}</p>
+        </li>
+    </ul>
+  &lt;/body>
+&lt;/html></code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Put Scripts at the End</h3>
+        </section>
+
+        <section>
+            <pre><code class="html">&lt;html ng-app="phonecatApp">
+&lt;body ng-controller="PhoneListCtrl">
+  <ul>
+    <li ng-repeat="phone in phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+    </li>
+  </ul>
+  <script src="js/angular.js"></script>
+  <script src="js/controllers.js"></script>
+&lt;/body>
+&lt;/html></code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Prefer ng-bind to interpolation</h3>
+        </section>
+
+        <section>
+            <pre><code class="html">&lt;html ng-app="phonecatApp">
+&lt;body ng-controller="PhoneListCtrl">
+  <ul>
+    <li ng-repeat="phone in phones">
+        <span ng-bind="phone.name"></span>
+        <p ng-bind="phone.snippet"></p>
+    </li>
+  </ul>
+  <script src="js/angular.js"></script>
+  <script src="js/controllers.js"></script>
+&lt;/body>
+&lt;/html></code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Prefer Angular Attributes if Available</h3>
+            <br/>
+            <ul>
+                <li>ng-src</li>
+                <li>ng-href</li>
+                <li>ng-class</li>
+                <li>etc...</li>
+            </ul>
+        </section>
+
+        <section>
+            Services
         </section>
 
         <section>
