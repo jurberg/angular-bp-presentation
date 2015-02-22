@@ -76,7 +76,7 @@
         </section>
 
         <section>
-            <h2>The 5 Minute Overview</h2>
+            <h2>A 5 Minute Overview</h2>
         </section>
 
         <section>
@@ -226,7 +226,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h3 class="bp">Use An IFFE</h3>
+            <h3 class="bp">Use An IIFE</h3>
             <p>(Immediately-Invoked Function Expression)</p>
         </section>
 
@@ -280,7 +280,7 @@ app.controller('PhoneListCtrl', function($scope) {
 export default {app};</code></pre>
             phoneListCtrl.js
             <pre><code class="javascript">import {app as App} from '/app/app';
-app.controller('PhoneListCtrl', function($scope) {
+App.controller('PhoneListCtrl', function($scope) {
   $scope.phones = [];
   $scope.addPhone = function(phone) {
     $scope.phones.push(phone);
@@ -373,8 +373,11 @@ phonecatControllers.controller('PhoneDetailCtrl',
         <section>
             <h2>Dependency Injection</h2>
             <br/>
-            <p>The Angular injector subsystem is in charge of creating components, resolving their dependencies, and providing them to other components as requested</p>
-            <small><a href="https://docs.angularjs.org/guide/di">*https://docs.angularjs.org/guide/di</a></small>
+            <ul>
+                <li>Creates components</li>
+                <li>Resolves dependencies</li>
+                <li>Provides components to other components as requested</li>
+            </ul>
         </section>
 
         <section>
@@ -459,7 +462,106 @@ phonecatControllers.controller('PhoneDetailCtrl',
         </section>
 
         <section>
-            Services
+            <h2>Services</h2>
+        </section>
+
+        <section>
+            <ul>
+                <li class="fragment">Wired together using DI</li>
+                <li class="fragment">Lazily instantiated</li>
+                <li class="fragment">Singletons</li>
+                <li class="fragment">Common code</li>
+                <li class="fragment">The Model</li>
+            </ul>
+        </section>
+
+        <section>
+            <ul>
+                <li>Service</li>
+                <li>Factory</li>
+                <li>Provider</li>
+                <li>Value</li>
+                <li>Constant</li>
+            </ul>
+        </section>
+
+        <section>
+            <pre><code class="javascript">function Greeter(name, salutation) {
+  this.name = name;
+  this.salutation = salutation || 'Hello';
+};
+
+Greeter.prototype.sayHello = function() {
+  return this.salutation + ', ' + this.name;
+};</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Constant for config & fixed values</h3>
+            <br/>
+            <pre><code class="javascript">app.constant('Name', 'John Doe');</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Values to allow overriding</h3>
+            <br/>
+            <pre><code class="javascript">app.value('Name', 'John Doe');</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.constant('NameConstant', {
+  name: 'John Doe'
+});</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.constant('NameConstant', Object.freeze({
+  name: 'John Doe'
+}));</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Service for singleton classes</h3>
+            <br/>
+            <pre><code class="javascript">app.service('GreeterService', ['Name', Greeter]);</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Factory for complex cases</h3>
+            <br/>
+            <pre><code class="javascript">app.factory('GreeterFactory', function() {
+  return function(name) {
+    return new Greeter(name);
+  };
+}]);</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Provider to configure a service</h3>
+            <br/>
+            <pre><code class="javascript">app.provider('GreeterProvider',['Name',function(name){
+  var salutation = 'Hello';
+
+  this.setSalutation = function(s) {
+    salutation = s;
+  };
+
+  this.$get = function() {
+    return new Greeter(name, salutation);
+  };
+
+}]);</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Decorators to enhance services</h3>
+            <br/>
+            <pre><code class="javascript">app.config(function($provide) {
+  $provide.decorator('GreeterService', function($delegate) {
+     $delegate.enhanced = true;
+     return $delegate;
+  });
+});</code></pre>
         </section>
 
         <section>
