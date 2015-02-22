@@ -390,6 +390,13 @@ phonecatControllers.controller('PhoneDetailCtrl',
         </section>
 
         <section>
+            <h3 class="bp">Use Array Notation for Dependencies</h3>
+            <br/>
+            <pre><code class="javascript">app.service('BookService', ['$http', function($http) {
+}]);</code></pre>
+        </section>
+
+        <section>
             <h2>Templates</h2>
             <br/>
             <p>HTML that contains Angular specific elements and attributes</p>
@@ -503,12 +510,6 @@ Greeter.prototype.sayHello = function() {
         </section>
 
         <section>
-            <h3 class="bp">Use Values to allow overriding</h3>
-            <br/>
-            <pre><code class="javascript">app.value('Name', 'John Doe');</code></pre>
-        </section>
-
-        <section>
             <pre><code class="javascript">app.constant('NameConstant', {
   name: 'John Doe'
 });</code></pre>
@@ -518,6 +519,12 @@ Greeter.prototype.sayHello = function() {
             <pre><code class="javascript">app.constant('NameConstant', Object.freeze({
   name: 'John Doe'
 }));</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Values to allow overriding</h3>
+            <br/>
+            <pre><code class="javascript">app.value('Name', 'John Doe');</code></pre>
         </section>
 
         <section>
@@ -539,18 +546,19 @@ Greeter.prototype.sayHello = function() {
         <section>
             <h3 class="bp">Use Provider to configure a service</h3>
             <br/>
-            <pre><code class="javascript">app.provider('GreeterProvider',['Name',function(name){
+            <pre><code class="javascript">utilMod.provider('GreeterProvider',['Name',function(name){
   var salutation = 'Hello';
-
   this.setSalutation = function(s) {
     salutation = s;
   };
-
   this.$get = function() {
     return new Greeter(name, salutation);
   };
-
-}]);</code></pre>
+}]);
+//--------------------------------------------
+app.config(['GreeterProvider', function(gp) {
+  gp.setSalutation('Hola');
+});</code></pre>
         </section>
 
         <section>
@@ -565,7 +573,160 @@ Greeter.prototype.sayHello = function() {
         </section>
 
         <section>
-            Controllers
+            <h2 class="bp">Use EcmaScript 6</h2>
+        </section>
+
+        <section>
+            <pre><code class="javascript">function Greeter(name, salutation) {
+  this.name = name;
+  this.salutation = salutation || 'Hello';
+}
+
+Greeter.prototype.sayHello = function() {
+  return this.salutation + ', ' + this.name;
+};</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">class GreeterService {
+  constructor(name, saluation = 'Hello') {
+    this.name = name;
+    this.salutation = salutation;
+  }
+  sayHello() {
+    return this.salutation + ', ' + this.name;
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>Controllers</h2>
+        </section>
+
+        <section>
+            <p>A JavaScript constructor function that is used to augment the Angular Scope</p>
+        </section>
+
+        <section>
+            <h3 class="bp">Use controllerAs</h3>
+            <br/>
+            <pre><code class="html">&lt;body ng-controller="PhoneListCtrl as ctrl"></body>
+  <ul>
+    <li ng-repeat="phone in ctrl.phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+    </li>
+  </ul>
+&lt;/body></code></pre>
+        </section>
+
+        <section>
+            <p>Before:</p>
+            <pre><code class="javascript">app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [];
+  $scope.addPhone = function(phone) {
+    $scope.phones.push(phone);
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <p>After:</p>
+            <pre><code class="javascript">app.controller('PhoneListCtrl', function() {
+  this.phones = [];
+  this.addPhone = function(phone) {
+    this.phones.push(phone);
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">class PhoneListCtrl {
+  constructor() {
+    this.phones = [];
+  }
+  addPhone(phone) {
+    this.phones.push(phone);
+  }
+}
+
+app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">$scope</h3>
+            <br/>
+            <ul>
+                <li>Read only in a template</li>
+                <li>Write only in a controller</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3 class="bp">Model in services, not on scope</h3>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [{
+    'name': 'Nexus S',
+    'snippet': 'Fast just got faster with Nexus S.'
+  },{
+    'name': 'Motorola XOOM™ with Wi-Fi',
+    'snippet': 'The Next, Next Generation tablet.'
+  },{
+    'name': 'MOTOROLA XOOM™',
+    'snippet': 'The Next, Next Generation tablet.'
+  }];
+});</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.service('PhoneService', function() {
+  this.phones = [{
+    'name': 'Nexus S',
+    'snippet': 'Fast just got faster with Nexus S.'
+  },{
+    'name': 'Motorola XOOM™ with Wi-Fi',
+    'snippet': 'The Next, Next Generation tablet.'
+  },{
+    'name': 'MOTOROLA XOOM™',
+    'snippet': 'The Next, Next Generation tablet.'
+  }];
+});
+app.controller('PhoneListCtrl', function(PhoneService) {
+   this.phones = PhoneService.phones;
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use References not Values</h3>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.service('UserService', function() {
+  this.name = "John Doe";
+});
+
+app.controller('MyCtrl', function(MyService) {
+  this.name = MyService.name;
+});</code></pre>
+            <pre><code class="html"><div ng-controller="MyCtrl as ctrl">
+    <input ng-model="ctrl.name"/>
+</div></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.service('UserService', function() {
+  this.user = { name: "John Doe" };
+});
+
+app.controller('MyCtrl', function(MyService) {
+  this.user = MyService.user;
+});</code></pre>
+            <pre><code class="html"><div ng-controller="MyCtrl as ctrl">
+    <input ng-model="ctrl.user.name"/>
+</div></code></pre>
         </section>
 
         <section>
