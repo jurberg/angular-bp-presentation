@@ -51,28 +51,17 @@
         </section>
 
         <section>
-            <h2>Exploding Popularity</h2>
-            <img src="img/graph.png"/><br/>
-            <small>* Google Trends</small>
+            <img src="img/dilbert.jpg"/>
+            <p>A best practice is a method or technique that has consistently shown results superior to those achieved with other means...</p>
+            <small><a href="http://en.wikipedia.org/wiki/Best_practice">*wikipedia</a></small>
         </section>
 
         <section>
-            <h2>Exploding Popularity</h2>
-            <img src="img/jobgraph.png" style="width: 200%; height: 200%;"/><br/>
+            <img src="img/tweet.png"/>
         </section>
 
         <section>
-            <img src="img/Lifetouch_Logo_2013.png" style="width: 200px; height: 125px;"/>
-            <br/>
-            Example projects:
-            <br/>
-            <br/>
-            <ul>
-                <li>Image Editor</li>
-                <li>Ad Builder</li>
-                <li>Mobile eCommerce Site</li>
-                <li>Template Designer</li>
-            </ul>
+            <img src="img/grab-bag.jpg"/>
         </section>
 
         <section>
@@ -137,13 +126,28 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2 class="bad">File Per Type</h2>
             <pre><code class="javascript">js/
   controllers.js
-  services.js
   directives.js
   filters.js
-  modules.js</code></pre>
+  services.js</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Define 1 Component Per File</h3>
+        </section>
+
+        <section>
+            app.js
+            <pre><code class="javascript">var app = angular.module('phonecatApp', []);</code></pre>
+            phoneListCtrl.js
+            <pre><code class="javascript">
+app.controller('PhoneListCtrl', function($scope) {
+  $scope.phones = [];
+  $scope.addPhone = function(phone) {
+    $scope.phones.push(phone);
+  };
+});</code></pre>
         </section>
 
         <section>
@@ -195,27 +199,6 @@ app.controller('PhoneListCtrl', function($scope) {
     directives/
       account-directive.js
     account-module.js</code></pre>
-        </section>
-
-        <section>
-            <h2>Source Files</h2>
-        </section>
-
-        <section>
-            <h3 class="bp">Define 1 Component Per File</h3>
-        </section>
-
-        <section>
-            app.js
-            <pre><code class="javascript">var app = angular.module('phonecatApp', []);</code></pre>
-            phoneListCtrl.js
-            <pre><code class="javascript">
-app.controller('PhoneListCtrl', function($scope) {
-  $scope.phones = [];
-  $scope.addPhone = function(phone) {
-    $scope.phones.push(phone);
-  };
-});</code></pre>
         </section>
 
         <section>
@@ -385,7 +368,10 @@ phonecatControllers.controller('PhoneDetailCtrl',
         <section>
             <h3 class="bp">Use Array Notation for Dependencies</h3>
             <br/>
-            <pre><code class="javascript">app.service('BookService', ['$http', function($http) {
+            <pre><code class="javascript">function MyCtrl($scope) {}
+MyCtrl.$inject = ['$scope'];
+
+app.service('BookService', ['$http', function($http) {
 }]);</code></pre>
         </section>
 
@@ -462,7 +448,9 @@ phonecatControllers.controller('PhoneDetailCtrl',
         </section>
 
         <section>
-            <h2>Services</h2>
+            <h2>Services / Providers</h2>
+            <br/>
+            <p>A "recipe" for creating your object with the injector</p>
         </section>
 
         <section>
@@ -470,16 +458,15 @@ phonecatControllers.controller('PhoneDetailCtrl',
                 <li class="fragment">Wired together using DI</li>
                 <li class="fragment">Lazily instantiated</li>
                 <li class="fragment">Singletons</li>
-                <li class="fragment">Common code</li>
-                <li class="fragment">The Model</li>
+                <li class="fragment">Where the Model lives</li>
             </ul>
         </section>
 
         <section>
             <ul>
+                <li>Provider</li>
                 <li>Service</li>
                 <li>Factory</li>
-                <li>Provider</li>
                 <li>Value</li>
                 <li>Constant</li>
             </ul>
@@ -497,7 +484,7 @@ Greeter.prototype.sayHello = function() {
         </section>
 
         <section>
-            <h3 class="bp">Use Constant for config & fixed values</h3>
+            <h3 class="bp">Use Constant for config phase values</h3>
             <br/>
             <pre><code class="javascript">app.constant('Name', 'John Doe');</code></pre>
         </section>
@@ -515,9 +502,14 @@ Greeter.prototype.sayHello = function() {
         </section>
 
         <section>
-            <h3 class="bp">Use Values to allow overriding</h3>
+            <h3 class="bp">Use Values to provide simple data</h3>
             <br/>
-            <pre><code class="javascript">app.value('Name', 'John Doe');</code></pre>
+            <pre><code class="javascript">app.value('Name', 'John Doe');
+
+app.value('Address', {
+   street: '100 Main Street',
+   city: 'Mankato'
+});</code></pre>
         </section>
 
         <section>
@@ -539,7 +531,8 @@ Greeter.prototype.sayHello = function() {
         <section>
             <h3 class="bp">Use Provider to configure a service</h3>
             <br/>
-            <pre><code class="javascript">utilMod.provider('GreeterProvider',['Name',function(name){
+            <pre><code class="javascript">utilMod.provider('GreeterProvider',['Name',
+function(name) {
   var salutation = 'Hello';
   this.setSalutation = function(s) {
     salutation = s;
@@ -558,7 +551,8 @@ app.config(['GreeterProvider', function(gp) {
             <h3 class="bp">Use Decorators to enhance services</h3>
             <br/>
             <pre><code class="javascript">app.config(function($provide) {
-  $provide.decorator('GreeterService', function($delegate) {
+  $provide.decorator('GreeterService',
+  function($delegate) {
      $delegate.enhanced = true;
      return $delegate;
   });
@@ -594,10 +588,8 @@ Greeter.prototype.sayHello = function() {
 
         <section>
             <h2>Controllers</h2>
-        </section>
-
-        <section>
-            <p>A JavaScript constructor function that is used to augment the Angular Scope</p>
+            <br/>
+            <p>A constructor function used to augment the Angular Scope</p>
         </section>
 
         <section>
@@ -615,22 +607,24 @@ Greeter.prototype.sayHello = function() {
 
         <section>
             <p>Before:</p>
-            <pre><code class="javascript">app.controller('PhoneListCtrl', function($scope) {
+            <pre><code class="javascript">function PhoneListCtrl($scope) {
   $scope.phones = [];
   $scope.addPhone = function(phone) {
     $scope.phones.push(phone);
   };
-});</code></pre>
+}
+app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
         <section>
             <p>After:</p>
-            <pre><code class="javascript">app.controller('PhoneListCtrl', function() {
+            <pre><code class="javascript">function PhoneListCtrl() {
   this.phones = [];
-  this.addPhone = function(phone) {
-    this.phones.push(phone);
-  };
-});</code></pre>
+}
+PhoneListCtrl.prototype.addPhone = function(phone) {
+  this.phones.push(phone);
+};
+app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
         <section>
@@ -642,7 +636,6 @@ Greeter.prototype.sayHello = function() {
     this.phones.push(phone);
   }
 }
-
 app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
@@ -675,21 +668,21 @@ app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
         <section>
-            <pre><code class="javascript">app.service('PhoneService', function() {
+            <pre><code class="javascript">function PhoneService() {
   this.phones = [{
     'name': 'Nexus S',
     'snippet': 'Fast just got faster with Nexus S.'
   },{
     'name': 'Motorola XOOM™ with Wi-Fi',
     'snippet': 'The Next, Next Generation tablet.'
-  },{
-    'name': 'MOTOROLA XOOM™',
-    'snippet': 'The Next, Next Generation tablet.'
   }];
-});
-app.controller('PhoneListCtrl', function(PhoneService) {
-   this.phones = PhoneService.phones;
-});</code></pre>
+}
+app.service('PhoneService', PhoneService);</code></pre>
+
+<pre><code class="javascript">function PhoneListCtrl(PhoneService) {
+  this.phones = PhoneService.phones;
+}
+app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
         <section>
@@ -697,55 +690,175 @@ app.controller('PhoneListCtrl', function(PhoneService) {
         </section>
 
         <section>
-            <pre><code class="javascript">app.service('UserService', function() {
+            <pre><code class="javascript">function UserService() {
   this.name = "John Doe";
-});
+}
 
-app.controller('MyCtrl', function(MyService) {
-  this.name = MyService.name;
-});</code></pre>
-            <pre><code class="html"><div ng-controller="MyCtrl as ctrl">
+function UserCtrl(UserService) {
+  this.name = UserService.name;
+}
+
+app.service('UserService', UserService);
+app.controller('UserCtrl', UserCtrl);</code></pre>
+            <pre><code class="html"><div ng-controller="UserCtrl as ctrl">
     <input ng-model="ctrl.name"/>
 </div></code></pre>
         </section>
 
         <section>
-            <pre><code class="javascript">app.service('UserService', function() {
+            <pre><code class="javascript">function UserService() {
   this.user = { name: "John Doe" };
-});
+}
 
-app.controller('MyCtrl', function(MyService) {
-  this.user = MyService.user;
-});</code></pre>
-            <pre><code class="html"><div ng-controller="MyCtrl as ctrl">
+function UserCtrl(UserService) {
+  this.user = UserService.user;
+}
+
+app.service('UserService', UserService);
+app.controller('UserCtrl', UserCtrl);</code></pre>
+            <pre><code class="html"><div ng-controller="UserCtrl as ctrl">
     <input ng-model="ctrl.user.name"/>
 </div></code></pre>
         </section>
 
         <section>
-            Directives
-        </section>
-
-        <section>
-            Filters
-        </section>
-
-        <section>
-            Events & Misc
-        </section>
-
-        <section>
-            Testing
-        </section>
-
-        <section>
-            <h3>Recap</h3>
+            <h2>Directives</h2>
             <br/>
-            <ol>
-                <li>A</li>
-                <li>B</li>
-                <li>C</li>
-            </ol>
+            <p>"teaching HTML new tricks"</p>
+        </section>
+
+        <section>
+            <h3 class="bp">DOM Manipulation Only in Directives</h3>
+        </section>
+
+        <section>
+            <h3 class="bp">Naming a Directive</h3>
+            <br/>
+            <ul>
+                <li>Use lowerCamelCase to name the directive</li>
+                <li>Reference as lower-camel-case in HTML</li>
+                <li>Prefix the directive name to avoid future collisions</li>
+            </ul>
+            <br/><br/>
+            <pre><code class="javascript">function MyDir() {...}
+app.directive('myDir', MyDir);</code></pre>
+        </section>
+
+        <section>
+            <ul>
+                <li class="bp">attribute name</li><pre><code class="html"><span my-dir="exp"></span></code></pre>
+                <li class="bp">tag name</li><pre><code class="html"><my-dir></my-dir></code></pre>
+                <li>comments</li><pre><code class="html"> <!-- directive: my-dir exp --></code></pre>
+                <li>class name</li><pre><code class="html"><span class="my-dir: exp;"></span></code></pre>
+            </ul>
+        </section>
+
+        <section>
+            <h3 class="bp">Break Template into Own File</h3>
+            <br/>
+            <pre><code class="javascript">app.directive('myCustomer', function() {
+  return {
+    template: 'Name: {{customer.name}} Address: {{customer.address}}'
+  };
+});</code></pre>
+            <pre><code class="javascript">app.directive('myCustomer', function() {
+  return {
+    templateUrl: 'my-customer.html'
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Isolate the Scope</h3>
+        </section>
+
+        <section>
+          <pre><code class="javascript">app.controller('TestCtrl', function() {
+  this.firstName = "John";
+  this.lastName = "Doe";
+  this.alertMe = function() {
+    alert(this.name);
+  };
+});</code></pre>
+          <pre><code>&lt;test-directive
+  name="{{test.firstName}}"
+  two-way-name="test.lastName"
+  alerter="test.alertMe()"/></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.directive('testDirective', function() {
+  return {
+    scope: {
+      name: "@", // one way text binding
+      twoWayName: "=", // two way binding
+      alerter: "&" // function binding
+    },
+    template: '<div>Hello {{name}}</div>' +
+      '<div>@:<input type="text" ng-model="name"/></div>' +
+      '<div>=:<input type="text" ng-model="twoWayName"/></div>' +
+      '<div>&:<button ng-click="alerter()">Alert</button></div>',
+    link: function(scope, elem, attr) {}
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Cleanup Your Directives</h3>
+            <br/>
+            <pre><code class="javascript">app.directive('myDir', function() {
+  return {
+     link: function(scope, elem, attr) {
+       var unbinder = scope.$watch('flag', function(flag) {});
+       scope.$on('$destroy', unbinder);
+     }
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Transclusion</h3>
+            <br/>
+            <p>Compile the content of the element and make it available to the directive.</p>
+            <br/>
+        </section>
+
+        <section>
+            <pre><code class="html"><div my-directive>
+    <button>some button</button>
+    <a href="#">and a link</a>
+</div></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">myApp.directive('myDirective', function() {
+  return {
+    transclude: true,
+    template: '<div class="something" ng-transclude>' +
+      'This is my directive content</div>'
+  }
+});</code></pre>
+        </section>
+
+        <section>
+            <p>Output</p>
+            <pre><code class="html"><div class="something">
+  This is my directive content
+  <button>some button</button>
+  <a href="#">and a link</a>
+</div></code></pre>
+        </section>
+
+        <section>
+            <h2>Filters</h2>
+        </section>
+
+        <section>
+            <h2>Events & Misc</h2>
+        </section>
+
+        <section>
+            <h2>Testing</h2>
         </section>
 
         <section>
