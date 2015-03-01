@@ -530,9 +530,7 @@ app.value('Address', {
 
         <section>
             <h3 class="bp">Use Provider to configure a service</h3>
-            <br/>
-            <pre><code class="javascript">utilMod.provider('GreeterProvider',['Name',
-function(name) {
+            <pre><code class="javascript">mod.provider('GreeterProvider',['Name',function(name){
   var salutation = 'Hello';
   this.setSalutation = function(s) {
     salutation = s;
@@ -540,9 +538,8 @@ function(name) {
   this.$get = function() {
     return new Greeter(name, salutation);
   };
-}]);
-//--------------------------------------------
-app.config(['GreeterProvider', function(gp) {
+}]);</code></pre>
+<pre><code class="javascript">app.config(['GreeterProvider', function(gp) {
   gp.setSalutation('Hola');
 });</code></pre>
         </section>
@@ -850,15 +847,146 @@ app.directive('myDir', MyDir);</code></pre>
         </section>
 
         <section>
-            <h2>Filters</h2>
+            <h3 class="bp">Stop Using jQuery</h3>
+            <br/>
+            <p>Use Directives instead!</p>
         </section>
 
         <section>
-            <h2>Events & Misc</h2>
+            <h2>Filters</h2>
+            <br/>
+            <p>Formats the value of an expression for display to the user</p>
+        </section>
+
+        <section>
+            <pre><code class="html"><div ng-controller="MyController">
+    <input ng-model="greeting" type="text"><br>
+    No filter: {{greeting}}<br>
+    Reverse: {{greeting|reverse}}<br>
+    Reverse + uppercase: {{greeting|reverse:true}}<br>
+</div></code></pre>
+            <small><a href="https://docs.angularjs.org/guide/filter">*google</a></small>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.filter('reverse', function() {
+  return function(input, uppercase) {
+    input = input || '';
+    var out = "";
+    for (var i = 0; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    // conditional based on optional argument
+    if (uppercase) {
+      out = out.toUpperCase();
+    }
+    return out;
+  };
+});</code></pre>
+            <small><a href="https://docs.angularjs.org/guide/filter">*google</a></small>
+        </section>
+
+        <section>
+            <h3 class="bp">Filters Should Be Lightweight</h3>
+            <br/>
+            <p>Called twice every digest cycle</p>
+        </section>
+
+        <section>
+            <h2>Misc Stuff</h2>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Angular Wrappers</h3>
+            <br/>
+            <ul>
+                <li>$window</li>
+                <li>$document</li>
+                <li>$timeout</li>
+                <li>etc...</li>
+            </ul>
+            <br/><br/>
+            <small><a href="https://docs.angularjs.org/api/ng/service">*services</a></small>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Angular Services</h3>
+            <br/>
+            <ul>
+                <li>$http</li>
+                <li>$resource</li>
+                <li>$q</li>
+                <li>etc...</li>
+            </ul>
+            <br/><br/>
+            <small><a href="https://docs.angularjs.org/api/ng/service">*services</a></small>
+        </section>
+
+        <section>
+            <h3 class="bp">Keep $watches Fast</h2>
+            <br/>
+            <p>Code in watches block the event loop</p>
+            <pre><code class="javascript">$scope.$watch('myvar', function(value) {
+  someLongRunningFunction(value);
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Understand Events</h3>
+            <br/>
+            <ul>
+                <li>$emit - Dispatches event <b>upward</b> thru the scope hierarchy</li>
+                <li>$broadcast - Dispatches event <b>downward</b> to all child scopes</li>
+            </ul>
         </section>
 
         <section>
             <h2>Testing</h2>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Lint</h3>
+            <br/>
+            <ul>
+                <li><a href="http://jshint.com/">JSLint</a></li>
+                <li><a href="http://jshint.com/">JSHint</a></li>
+                <li><a href="http://eslint.org/">ESLint</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h3 class="bp">Use Angular Mock</h3>
+            <br/>
+            <p>angular-mocks.js</p>
+        </section>
+
+        <section>
+            <pre><code class="javascript">describe("A test", function() {
+ var customerService = {},
+     $scope,
+     ctrl;
+ beforeEach(function() {
+  module('app', function($provide) {
+   $provide.value('CustomerService', customerService);
+  });
+  inject(function($injector) {
+   var $rootScope = $injector.get('$rootScope');
+   $controller = $injector.get('$controller');
+   $scope = $rootScope.$new();
+   ctrl = $controller('MyCtrl', { $scope: $scope });
+  });
+ });
+});</code></pre>
+        </section>
+
+        <section>
+            <h3 class="bp">Use PhantomJS</h3>
+            <br/>
+            <p>Headless website testing</p>
+        </section>
+
+        <section>
+            <img src="img/empty-bag.jpg" style="width: 200%;height: 200%;"/>
         </section>
 
         <section>
