@@ -843,39 +843,6 @@ app.directive('myDir', MyDir);</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">Use Transclusion</h3>
-            <br/>
-            <p>Compile the content of the element and make it available to the directive.</p>
-            <br/>
-        </section>
-
-        <section>
-            <pre><code class="html"><div my-directive>
-    <button>some button</button>
-    <a href="#">and a link</a>
-</div></code></pre>
-        </section>
-
-        <section>
-            <pre><code class="javascript">myApp.directive('myDirective', function() {
-  return {
-    transclude: true,
-    template: '<div class="something" ng-transclude>' +
-      'This is my directive content</div>'
-  }
-});</code></pre>
-        </section>
-
-        <section>
-            <p>Output</p>
-            <pre><code class="html"><div class="something">
-  This is my directive content
-  <button>some button</button>
-  <a href="#">and a link</a>
-</div></code></pre>
-        </section>
-
-        <section>
             <h3 class="bp">Stop Using jQuery</h3>
             <br/>
             <p>Use Directives instead!</p>
