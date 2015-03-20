@@ -33,7 +33,7 @@
 <div class="reveal">
 
     <div class="slides">
-
+<!--
         <section>
             <img src="img/rpg-dude.png">
         </section>
@@ -57,7 +57,7 @@
         <section>
             <img src="img/april-fools.jpg">
         </section>
-
+-->
         <section data-background-transition="slide">
             <div style="float: left;">
                 <img src="img/angular.png"/>
@@ -162,7 +162,7 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            app.js
+            phonecatApp.js
             <pre><code class="javascript">var app = angular.module('phonecatApp', []);</code></pre>
             phoneListCtrl.js
             <pre><code class="javascript">
@@ -186,19 +186,19 @@ app.controller('PhoneListCtrl', function($scope) {
   services/
     userService.js
     itemService.js
-  lib/
-    jquery.js
-    bootstrap.js
-  app.js</code></pre>
+  app.js
+lib/
+  jquery.js
+  bootstrap.js</code></pre>
         </section>
 
         <section>
             <h2 class="bp">Directory Per Module</h2>
             <pre><code class="javascript">app/
-  patients/
-    patient-controller.js
-    patient-module.js
-    patient-service.js
+  invoices/
+    invoices-controller.js
+    invoices-module.js
+    invoices-service.js
   accounts/
     account-list-controller.js
     account-module.js
@@ -207,31 +207,12 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2 class="bp">Combo Platter</h2>
-            <pre><code class="javascript">app/
-  patients/
-    controllers/
-      patient-controller.js
-    services/
-      patient-service.js
-    patient-module.js
-  accounts/
-    controllers/
-      account-list-controller.js
-    services/
-      account-service.js
-    directives/
-      account-directive.js
-    account-module.js</code></pre>
-        </section>
-
-        <section>
             <h3 class="bp">Use An IIFE</h3>
             <p>(Immediately-Invoked Function Expression)</p>
         </section>
 
         <section>
-            app.js
+            phonecatApp.js
             <pre><code class="javascript">(function(global, angular) {
   "use strict";
   global.app = angular.module('phonecatApp', []);
@@ -258,13 +239,13 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            app.js
+            phonecatApp.js
             <pre><code class="javascript">define(["angular"], function(angular) {
   "use strict";
   return angular.module('phonecatApp', []);
 });</code></pre>
             phoneListCtrl.js
-            <pre><code class="javascript">define(["app"], function(app) {
+            <pre><code class="javascript">require(["phonecatApp"], function(app) {
   "use strict";
   app.controller('PhoneListCtrl', function($scope) {
     $scope.phones = [];
@@ -275,11 +256,11 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            app.js
-            <pre><code class="javascript">const app = angular.module('phonecatApp', []);
-export default {app};</code></pre>
+            phonecatApp.js
+            <pre><code class="javascript">const phonecatApp = angular.module('phonecatApp', []);
+export default {phonecatApp};</code></pre>
             phoneListCtrl.js
-            <pre><code class="javascript">import {app as App} from '/app/app';
+            <pre><code class="javascript">import {phonecatApp as App} from '/app/phonecatApp';
 App.controller('PhoneListCtrl', function($scope) {
   $scope.phones = [];
   $scope.addPhone = function(phone) {
@@ -315,7 +296,7 @@ App.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <pre><code class="javascript">var app = angular.module('phonecatApp', []);
+            <pre><code class="javascript">var app = angular.module('phonecatApp', ['ngRoute']);
 
 app.controller('PhoneListCtrl', function($scope) {});
 
@@ -323,7 +304,7 @@ app.service('PhoneService', function() {});</code></pre>
         </section>
 
         <section>
-            <p>Your application module has a global namespace!</p>
+            <h3>Modules have a global namespace!</h3>
         </section>
 
         <section>
@@ -343,6 +324,7 @@ app.service('PhoneService', function() {});</code></pre>
                 <li>A module for each reusable component</li>
                 <li>An application level module which depends on the above modules and contains any initialization code</li>
             </ul>
+            <br/><br/>
             <small><a href="https://docs.angularjs.org/guide/module">*https://docs.angularjs.org/guide/module</a></small>
         </section>
 
@@ -393,6 +375,7 @@ phonecatControllers.controller('PhoneDetailCtrl',
             <h3 class="bp">Use Array Notation for Dependencies</h3>
             <br/>
             <pre><code class="javascript">function MyCtrl($scope) {}
+
 MyCtrl.$inject = ['$scope'];
 
 app.service('BookService', ['$http', function($http) {
@@ -482,7 +465,6 @@ app.service('BookService', ['$http', function($http) {
                 <li class="fragment">Wired together using DI</li>
                 <li class="fragment">Lazily instantiated</li>
                 <li class="fragment">Singletons</li>
-                <li class="fragment">Where the Model lives</li>
             </ul>
         </section>
 
@@ -533,7 +515,9 @@ Greeter.prototype.sayHello = function() {
 app.value('Address', {
    street: '100 Main Street',
    city: 'Mankato'
-});</code></pre>
+});
+
+app.value('GreeterService', new Greeter('John Doe'));</code></pre>
         </section>
 
         <section>
