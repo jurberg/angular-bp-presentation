@@ -33,7 +33,7 @@
 <div class="reveal">
 
     <div class="slides">
-<!--
+
         <section>
             <img src="img/rpg-dude.png">
         </section>
@@ -57,7 +57,7 @@
         <section>
             <img src="img/april-fools.jpg">
         </section>
--->
+
         <section data-background-transition="slide">
             <div style="float: left;">
                 <img src="img/angular.png"/>
@@ -783,17 +783,33 @@ app.directive('myDir', MyDir);</code></pre>
         </section>
 
         <section>
-          <pre><code class="javascript">app.controller('TestCtrl', function() {
-  this.firstName = "John";
-  this.lastName = "Doe";
-  this.alertMe = function() {
+            <pre><code class="javascript">app.controller('TestCtrl', function($scope) {
+  $scope.firstName = "John";
+  $scope.lastName = "Doe";
+  $scope.alertMe = function() {
     alert(this.name);
   };
 });</code></pre>
+        </section>
+
+        <section>
+            <pre><code class="html">&lt;div ng-controller="TestCtrl">&lt;test-directive/>&lt;/div></code></pre>
+            <pre><code class="javascript">app.directive('testDirective', function() {
+  return {
+    restrict: 'E',
+    template: '<div>Hello {{firstName}}</div>' +
+      '<div><input type="text" ng-model="lastName"/></div>' +
+      '<div><button ng-click="alertMe()">Alert</button></div>',
+    link: function(scope, elem, attr) {}
+  };
+});</code></pre>
+        </section>
+
+        <section>
           <pre><code>&lt;test-directive
-  name="{{test.firstName}}"
-  two-way-name="test.lastName"
-  alerter="test.alertMe()"/></code></pre>
+  name="{{firstName}}"
+  two-way-name="lastName"
+  alerter="alertMe()"/></code></pre>
         </section>
 
         <section>
@@ -809,6 +825,69 @@ app.directive('myDir', MyDir);</code></pre>
       '<div>=:<input type="text" ng-model="twoWayName"/></div>' +
       '<div>&:<button ng-click="alerter()">Alert</button></div>',
     link: function(scope, elem, attr) {}
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h2 class="bp">Create an API</h2>
+            <pre><code class="javascript">app.controller('TestCtrl', function() {
+  this.open = function() {};
+  this.onAlert = function() { alert('callback'); };
+});</code></pre>
+            <pre><code class="html">&lt;div ng-controller="TestCtrl as test">
+  &lt;test-directive
+    saluation="Hola"
+    open-fn="test.open"
+    on-alert="test.onAlert"/>
+&lt/div></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.directive('testDirective', function() {
+  return {
+    scope: {
+      salutation: "@",
+      openFn: "=",
+      onAlert: "="
+    },
+    link: function(scope, elem, attr) {
+      scope.openFn = function(value) {
+        alert(scope.salutation + ", " + value);
+        if (scope.onAlert) {
+          scope.onAlert();
+        }
+      };
+    }
+  };
+});</code></pre>
+        </section>
+
+        <section>
+            <h2 class="bp">Use Options as an API</h2>
+            <pre><code class="javascript">app.controller('TestCtrl', function() {
+  this.options = {
+    salutation: 'Hola',
+    onAlert: function() { alert('callback'); };
+  };
+});</code></pre>
+            <pre><code class="html">&lttest-directive options="test.options"/></code></pre>
+        </section>
+
+        <section>
+            <pre><code class="javascript">app.directive('testDirective', function() {
+  return {
+    scope: {
+      options: "="
+    },
+    link: function(scope, elem, attr) {
+      scope.options.open = function(value) {
+        alert(scope.options.salutation + ", " + value);
+        if (scope.options.onAlert) {
+          scope.options.onAlert();
+        }
+      };
+    }
   };
 });</code></pre>
         </section>
