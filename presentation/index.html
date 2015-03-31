@@ -833,13 +833,13 @@ app.directive('myDir', MyDir);</code></pre>
             <h3 class="bp">Create an API</h3>
             <pre><code class="javascript">app.controller('TestCtrl', function() {
   this.open = function() {};
-  this.onAlert = function() { alert('callback'); };
+  this.onAlert = function(value) { alert(value); };
 });</code></pre>
             <pre><code class="html">&lt;div ng-controller="TestCtrl as test">
   &lt;test-directive
     saluation="Hola"
     open-fn="test.open"
-    on-alert="test.onAlert"/>
+    on-alert="test.onAlert(value)"/>
 &lt/div></code></pre>
         </section>
 
@@ -849,13 +849,13 @@ app.directive('myDir', MyDir);</code></pre>
     scope: {
       salutation: "@",
       openFn: "=",
-      onAlert: "="
+      onAlert: "&"
     },
     link: function(scope, elem, attr) {
       scope.openFn = function(value) {
         alert(scope.salutation + ", " + value);
         if (scope.onAlert) {
-          scope.onAlert();
+          scope.onAlert({value: scope.salutation});
         }
       };
     }
