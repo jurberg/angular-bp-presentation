@@ -223,8 +223,9 @@ lib/
   app.controller('PhoneListCtrl', function($scope) {
     $scope.phones = [];
     $scope.addPhone = function(phone) {
-    $scope.phones.push(phone);
-  };
+      $scope.phones.push(phone);
+    };
+  });
 }(app));</code></pre>
         </section>
 
@@ -252,6 +253,7 @@ lib/
     $scope.addPhone = function(phone) {
       $scope.phones.push(phone);
     };
+  });
 });</code></pre>
         </section>
 
