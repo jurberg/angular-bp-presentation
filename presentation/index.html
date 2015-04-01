@@ -85,10 +85,6 @@
         </section>
 
         <section>
-            <img src="img/grab-bag.jpg"/>
-        </section>
-
-        <section>
             <h2>A 5 Minute Overview</h2>
         </section>
 
@@ -146,15 +142,17 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
+            <img src="img/grab-bag.jpg"/>
+        </section>
+
+        <section>
             <h2>Code Organization</h2>
         </section>
 
         <section>
-            <pre><code class="javascript">js/
-  controllers.js
-  directives.js
-  filters.js
-  services.js</code></pre>
+            <img src="img/phonecat-files.png" style="width:150%;height:150%"/>
+            <br/>
+            <small><a href="https://github.com/angular/angular-phonecat/tree/step-1/app/js">*Angular Tutorial</a></small>
         </section>
 
         <section>
@@ -212,13 +210,15 @@ lib/
         </section>
 
         <section>
-            phonecatApp.js
-            <pre><code class="javascript">(function(global, angular) {
+
+            <pre><code class="javascript">// phonecatApp.js
+(function(global, angular) {
   "use strict";
   global.app = angular.module('phonecatApp', []);
 }(this, angular));</code></pre>
-            phoneListCtrl.js
-            <pre><code class="javascript">(function(app) {
+
+            <pre><code class="javascript">// phoneListCtrl.js
+(function(app) {
   "use strict";
   app.controller('PhoneListCtrl', function($scope) {
     $scope.phones = [];
@@ -240,13 +240,15 @@ lib/
         </section>
 
         <section>
-            phonecatApp.js
-            <pre><code class="javascript">define(["angular"], function(angular) {
+
+            <pre><code class="javascript">// phonecatApp.js
+define(["angular"], function(angular) {
   "use strict";
   return angular.module('phonecatApp', []);
 });</code></pre>
-            phoneListCtrl.js
-            <pre><code class="javascript">require(["phonecatApp"], function(app) {
+
+            <pre><code class="javascript">// phoneListCtrl.js
+require(["phonecatApp"], function(app) {
   "use strict";
   app.controller('PhoneListCtrl', function($scope) {
     $scope.phones = [];
@@ -258,11 +260,15 @@ lib/
         </section>
 
         <section>
-            phonecatApp.js
-            <pre><code class="javascript">const phonecatApp = angular.module('phonecatApp', []);
+
+            <pre><code class="javascript">// phonecatApp.js
+const phonecatApp = angular.module('phonecatApp', []);
+
 export default {phonecatApp};</code></pre>
-            phoneListCtrl.js
-            <pre><code class="javascript">import {phonecatApp as App} from '/app/phonecatApp';
+
+            <pre><code class="javascript">// phoneListCtrl.js
+import {phonecatApp as App} from '/app/phonecatApp';
+
 App.controller('PhoneListCtrl', function($scope) {
   $scope.phones = [];
   $scope.addPhone = function(phone) {
@@ -758,8 +764,8 @@ app.directive('myDir', MyDir);</code></pre>
 
         <section>
             <ul>
-                <li class="bp">attribute name</li><pre><code class="html"><span my-dir="exp"></span></code></pre>
                 <li class="bp">tag name</li><pre><code class="html"><my-dir></my-dir></code></pre>
+                <li class="bp">attribute name</li><pre><code class="html"><span my-dir="exp"></span></code></pre>
                 <li>comments</li><pre><code class="html"> <!-- directive: my-dir exp --></code></pre>
                 <li>class name</li><pre><code class="html"><span class="my-dir: exp;"></span></code></pre>
             </ul>
@@ -1128,12 +1134,6 @@ app.run(function(RouteService, $location) {
   });
  });
 });</code></pre>
-        </section>
-
-        <section>
-            <h3 class="bp">Use PhantomJS</h3>
-            <br/>
-            <p>Headless website testing</p>
         </section>
 
         <section>
