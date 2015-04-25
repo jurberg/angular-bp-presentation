@@ -406,16 +406,33 @@ app.service('BookService', ['$http', function($http) {
         </section>
 
         <section>
-            <h3 class="bp">Prefer ng-bind to interpolation</h3>
+            <h3 class="bp">Hide Interpolated Values</h3>
         </section>
 
         <section>
+            <p>ng-bind</p>
             <pre><code class="html">&lt;html ng-app="phonecatApp">
 &lt;body ng-controller="PhoneListCtrl">
   <ul>
     <li ng-repeat="phone in phones">
         <span ng-bind="phone.name"></span>
         <p ng-bind="phone.snippet"></p>
+    </li>
+  </ul>
+  <script src="js/angular.js"></script>
+  <script src="js/controllers.js"></script>
+&lt;/body>
+&lt;/html></code></pre>
+        </section>
+
+        <section>
+            <p>ng-cloak</p>
+            <pre><code class="html">&lt;html ng-app="phonecatApp">
+&lt;body ng-controller="PhoneListCtrl">
+  <ul ng-cloak class="ng-cloak">
+    <li ng-repeat="phone in phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
     </li>
   </ul>
   <script src="js/angular.js"></script>
@@ -436,7 +453,7 @@ app.service('BookService', ['$http', function($http) {
         </section>
 
         <section>
-            <h2>Services / Providers</h2>
+            <h2>Providers</h2>
             <br/>
             <p>A "recipe" for creating your object with the injector</p>
         </section>
@@ -444,8 +461,9 @@ app.service('BookService', ['$http', function($http) {
         <section>
             <ul>
                 <li class="fragment">Wired together using DI</li>
-                <li class="fragment">Lazily instantiated</li>
+                <li class="fragment">Lazily instantiated (mostly)</li>
                 <li class="fragment">Singletons</li>
+                <li class="fragment">Service Layer</li>
             </ul>
         </section>
 
@@ -473,19 +491,10 @@ Greeter.prototype.sayHello = function() {
         <section>
             <h3 class="bp">Use Constant for config phase values</h3>
             <br/>
-            <pre><code class="javascript">app.constant('Name', 'John Doe');</code></pre>
-        </section>
-
-        <section>
-            <pre><code class="javascript">app.constant('NameConstant', {
-  name: 'John Doe'
+            <pre><code class="javascript">app.constant('Defaults', {
+  currency: 'USD',
+  locale: 'en_US'
 });</code></pre>
-        </section>
-
-        <section>
-            <pre><code class="javascript">app.constant('NameConstant', Object.freeze({
-  name: 'John Doe'
-}));</code></pre>
         </section>
 
         <section>
@@ -502,7 +511,7 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">Use Service for singleton classes</h3>
+            <h3 class="bp">Use Service for Constructor Functions</h3>
             <br/>
             <pre><code class="javascript">app.service('GreeterService', ['Name', Greeter]);</code></pre>
         </section>
@@ -510,9 +519,9 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
         <section>
             <h3 class="bp">Use Factory for complex cases</h3>
             <br/>
-            <pre><code class="javascript">app.factory('GreeterFactory', function() {
-  return function(name) {
-    return new Greeter(name);
+            <pre><code class="javascript">app.factory('GreeterFactory', ['Name',function(Name) {
+  return function(overrideName) {
+    return new Greeter(overrideName || Name);
   };
 }]);</code></pre>
         </section>
@@ -534,7 +543,7 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">Use Decorators to enhance services</h3>
+            <h3 class="bp">Use Decorators to enhance providers</h3>
             <br/>
             <pre><code class="javascript">app.config(function($provide) {
   $provide.decorator('GreeterService',
@@ -640,7 +649,7 @@ app.controller('PhoneListCtrl', PhoneListCtrl);</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">Model in services, not on scope</h3>
+            <h3 class="bp">The Model Lives in Providers</h3>
         </section>
 
         <section>
@@ -719,7 +728,7 @@ app.controller('UserCtrl', UserCtrl);</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">DOM Manipulation Only in Directives</h3>
+            <h3 class="bp">Only Access DOM in Directives</h3>
         </section>
 
         <section>
@@ -731,16 +740,17 @@ app.controller('UserCtrl', UserCtrl);</code></pre>
                 <li>Prefix the directive name to avoid future collisions</li>
             </ul>
             <br/><br/>
-            <pre><code class="javascript">function MyDir() {...}
-app.directive('myDir', MyDir);</code></pre>
+            <pre><code class="javascript">// super grid library
+function SgGrid() {...}
+app.directive('sgGrid', SgGrid);</code></pre>
         </section>
 
         <section>
             <ul>
-                <li class="bp">tag name</li><pre><code class="html"><my-dir></my-dir></code></pre>
-                <li class="bp">attribute name</li><pre><code class="html"><span my-dir="exp"></span></code></pre>
-                <li>comments</li><pre><code class="html"> <!-- directive: my-dir exp --></code></pre>
-                <li>class name</li><pre><code class="html"><span class="my-dir: exp;"></span></code></pre>
+                <li class="bp">tag name</li><pre><code class="html"><sg-grid></sg-grid></code></pre>
+                <li class="bp">attribute name</li><pre><code class="html"><span sg-grid="exp"></span></code></pre>
+                <li>comments</li><pre><code class="html"> <!-- directive: sg-grid exp --></code></pre>
+                <li>class name</li><pre><code class="html"><span class="sg-grid: exp;"></span></code></pre>
             </ul>
         </section>
 
@@ -835,9 +845,7 @@ app.directive('myDir', MyDir);</code></pre>
     link: function(scope, elem, attr) {
       scope.openFn = function(value) {
         alert(scope.salutation + ", " + value);
-        if (scope.onAlert) {
-          scope.onAlert({value: scope.salutation});
-        }
+        scope.onAlert({value: scope.salutation});
       };
     }
   };
@@ -879,7 +887,8 @@ app.directive('myDir', MyDir);</code></pre>
             <pre><code class="javascript">app.directive('myDir', function() {
   return {
      link: function(scope, elem, attr) {
-       var unbinder = scope.$watch('flag', function(flag) {});
+       var unbinder = $rootScope.$watch('flag',
+          function(flag) { alert('flag changed!'); });
        scope.$on('$destroy', unbinder);
      }
   };
@@ -1053,7 +1062,7 @@ app.run(function(RouteService, $location) {
         </section>
 
         <section>
-            <h3 class="bp">Keep $watches Fast</h2>
+            <h3 class="bp">Keep $watches Fast</h3>
             <br/>
             <p>Code in watches block the digest loop</p>
             <pre><code class="javascript">$scope.$watch('myvar', function(value) {
