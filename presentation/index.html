@@ -546,10 +546,9 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
             <h3 class="bp">Use Decorators to enhance providers</h3>
             <br/>
             <pre><code class="javascript">app.config(function($provide) {
-  $provide.decorator('GreeterService',
-  function($delegate) {
-     $delegate.enhanced = true;
-     return $delegate;
+  $provide.decorator('GreeterService', function($d) {
+     $d.enhanced = true;
+     return $d;
   });
 });</code></pre>
         </section>
@@ -797,13 +796,6 @@ app.directive('sgGrid', SgGrid);</code></pre>
         </section>
 
         <section>
-          <pre><code>&lt;test-directive
-  name="{{firstName}}"
-  two-way-name="lastName"
-  alerter="alertMe()"/></code></pre>
-        </section>
-
-        <section>
             <pre><code class="javascript">app.directive('testDirective', function() {
   return {
     scope: {
@@ -818,6 +810,13 @@ app.directive('sgGrid', SgGrid);</code></pre>
     link: function(scope, elem, attr) {}
   };
 });</code></pre>
+        </section>
+
+        <section>
+            <pre><code>&lt;test-directive
+  name="{{firstName}}"
+  two-way-name="lastName"
+  alerter="alertMe()"/></code></pre>
         </section>
 
         <section>
