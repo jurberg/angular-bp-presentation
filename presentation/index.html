@@ -39,12 +39,12 @@
                 <img src="img/angular.png"/>
             </div>
             <div style="float: right;">
-                <h2>AngularJS</h2>
+                <h2>AngularJS 1.x</h2>
                 <h2>Best Practices</h2>
                 <p>
                     <br/><br/>
                     <small>Created by John Urberg</small><br>
-                    <small>Application Architect @Lifetouch</small><br>
+                    <small>Lead Systems Architect @Lifetouch</small><br>
                     <small>@jurberg / jurberg.github.io</small>
                 </p>
             </div>
@@ -146,35 +146,16 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2 class="bp">Directory Per Type</h2>
+            <h2 class="bp">Directory Per Component</h2>
             <pre><code class="javascript">app/
-  controllers/
-    mainController.js
-    otherController.js
-  directives/
-    mainDirective.js
-    otherDirective.js
-  services/
-    userService.js
-    itemService.js
-  app.js
-lib/
-  jquery.js
-  bootstrap.js</code></pre>
-        </section>
-
-        <section>
-            <h2 class="bp">Directory Per Module</h2>
-            <pre><code class="javascript">app/
-  invoices/
-    invoices-controller.js
-    invoices-module.js
-    invoices-service.js
-  accounts/
-    account-list-controller.js
-    account-module.js
-    account-service.js
-    account-directive.js</code></pre>
+  components/
+    invoice/
+      invoice.js
+      invoice.css
+      invoice.html
+      invlice.spec.js
+    account/
+    checkout/</code></pre>
         </section>
 
         <section>
@@ -507,7 +488,8 @@ app.value('Address', {
    city: 'Mankato'
 });
 
-app.value('GreeterService', new Greeter('John Doe'));</code></pre>
+app.value('JohnDoeGreeterService',
+          new Greeter('John Doe'));</code></pre>
         </section>
 
         <section>
@@ -517,11 +499,13 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
         </section>
 
         <section>
-            <h3 class="bp">Use Factory for complex cases</h3>
+            <h3 class="bp">Use Factories For Flexibility</h3>
             <br/>
             <pre><code class="javascript">app.factory('GreeterFactory', ['Name',function(Name) {
-  return function(overrideName) {
-    return new Greeter(overrideName || Name);
+  return {
+    create: function(salutation) {
+      return new GreeterService(name, salutation);
+    }
   };
 }]);</code></pre>
         </section>
@@ -551,6 +535,15 @@ app.value('GreeterService', new Greeter('John Doe'));</code></pre>
      return $d;
   });
 });</code></pre>
+        </section>
+
+        <section>
+            <h3>Service or Factory?</h3>
+            <br/>
+            <ul>
+                <li><a href="https://medium.com/@bluepnume/sane-scalable-angular-apps-are-tricky-but-not-impossible-lessons-learned-from-paypal-checkout-c5320558d4ef#.p6huatlok">Paypal says</a> just use factories</li>
+                <li><a href="http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html/">Services better for Angular 2?</a></li>
+            </ul>
         </section>
 
         <section>
@@ -721,6 +714,30 @@ app.controller('UserCtrl', UserCtrl);</code></pre>
         </section>
 
         <section>
+            <h3 class="bp">Use directives over ng-controller</h3>
+            <br/>
+            <ul>
+                <li>Doesn’t enforce a 1–1 between controller and template</li>
+                <li>Controllers don’t end up being especially re-usable</li>
+                <li>Too many disparate ways to attach a controller to a template</li>
+            </ul>
+            <br/><br/>
+            <small><a href="https://medium.com/@bluepnume/sane-scalable-angular-apps-are-tricky-but-not-impossible-lessons-learned-from-paypal-checkout-c5320558d4ef">*paypal learnings</a></small>
+        </section>
+
+        <section>
+            <pre><code class="javascript">$routeProvider.
+  when('/phones', {
+    templateUrl: 'partials/phone-list.html',
+    controller: 'PhoneListCtrl'
+  });</code></pre>
+            <pre><code class="javascript">$routeProvider.
+  when('/phones', {
+    template: '<phone-list></phone-list>',
+  });</code></pre>
+        </section>
+
+        <section>
             <h2>Directives</h2>
             <br/>
             <p>"teaching HTML new tricks"</p>
@@ -817,6 +834,12 @@ app.directive('sgGrid', SgGrid);</code></pre>
   name="{{firstName}}"
   two-way-name="lastName"
   alerter="alertMe()"/></code></pre>
+        </section>
+
+        <section>
+            <h3>Exception!!!</h3>
+            <br/>
+            <p>Only one directive per tag can have isolate scope.</p>
         </section>
 
         <section>
