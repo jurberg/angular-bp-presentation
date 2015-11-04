@@ -146,16 +146,14 @@ app.controller('PhoneListCtrl', function($scope) {
         </section>
 
         <section>
-            <h2 class="bp">Directory Per Component</h2>
-            <pre><code class="javascript">app/
-  components/
-    invoice/
-      invoice.js
-      invoice.css
-      invoice.html
-      invlice.spec.js
-    account/
-    checkout/</code></pre>
+            <h2 class="bp">Organize Your Code</h2>
+            <br/>
+            <ul>
+                <li>Directory per type</li>
+                <li>Directory per module</li>
+                <li>Directory per component</li>
+                <li>Mix of the above</li>
+            </ul>
         </section>
 
         <section>
@@ -334,14 +332,18 @@ phonecatControllers.controller('PhoneDetailCtrl',
         </section>
 
         <section>
-            <h3 class="bp">Use Array Notation for Dependencies</h3>
+            <h3 class="bp">Annotate your Dependencies</h3>
             <br/>
-            <pre><code class="javascript">function MyCtrl($scope) {}
+            <pre><code class="javascript">// breaks on minification
+function MyCtrl($scope) {}
 
 MyCtrl.$inject = ['$scope'];
 
 app.service('BookService', ['$http', function($http) {
-}]);</code></pre>
+}]);
+
+// @ngInject
+function Foo($scope) {}</code></pre>
         </section>
 
         <section>
@@ -459,6 +461,15 @@ app.service('BookService', ['$http', function($http) {
         </section>
 
         <section>
+            <h3 class="bp">Use Constant for config phase values</h3>
+            <br/>
+            <pre><code class="javascript">app.constant('Defaults', {
+  currency: 'USD',
+  locale: 'en_US'
+});</code></pre>
+        </section>
+
+        <section>
             <pre><code class="javascript">function Greeter(name, salutation) {
   this.name = name;
   this.salutation = salutation || 'Hello';
@@ -467,15 +478,6 @@ app.service('BookService', ['$http', function($http) {
 Greeter.prototype.sayHello = function() {
   return this.salutation + ', ' + this.name;
 };</code></pre>
-        </section>
-
-        <section>
-            <h3 class="bp">Use Constant for config phase values</h3>
-            <br/>
-            <pre><code class="javascript">app.constant('Defaults', {
-  currency: 'USD',
-  locale: 'en_US'
-});</code></pre>
         </section>
 
         <section>
