@@ -765,8 +765,8 @@ app.directive('sgGrid', SgGrid);</code></pre>
 
         <section>
             <ul>
-                <li class="bp">tag name</li><pre><code class="html"><sg-grid></sg-grid></code></pre>
-                <li class="bp">attribute name</li><pre><code class="html"><span sg-grid="exp"></span></code></pre>
+                <li class="bp">tag name (components)</li><pre><code class="html"><sg-grid></sg-grid></code></pre>
+                <li class="bp">attribute name (decorators)</li><pre><code class="html"><span sg-grid="exp"></span></code></pre>
                 <li>comments</li><pre><code class="html"> <!-- directive: sg-grid exp --></code></pre>
                 <li>class name</li><pre><code class="html"><span class="sg-grid: exp;"></span></code></pre>
             </ul>
@@ -789,6 +789,8 @@ app.directive('sgGrid', SgGrid);</code></pre>
 
         <section>
             <h3 class="bp">Isolate the Scope</h3>
+            <br/>
+            <p>For directives that are used as components.</p>
         </section>
 
         <section>
@@ -839,7 +841,7 @@ app.directive('sgGrid', SgGrid);</code></pre>
         </section>
 
         <section>
-            <h3>Exception!!!</h3>
+            <h3>Careful</h3>
             <br/>
             <p>Only one directive per tag can have isolate scope.</p>
         </section>
